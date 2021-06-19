@@ -1,0 +1,94 @@
+* {
+    text-align: center;
+    background-color: #ccddff;
+    color: #4d79ff;
+    font-family: Roboto;
+}
+
+hr {
+    margin-bottom: 25px
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    margin: 3%
+}
+
+.container>* {
+    width: 33.333%;
+    align-self: flex-end;
+    margin: 0.5%
+}
+
+.side {
+    height: 250px
+}
+
+.center {
+    height: 300px
+}
+
+.info {
+    font-size: 15px;
+}
+
+.naslov {
+    font-size: 22.5px
+}
+
+fieldset {
+    border: 2px solid #4d79ff;
+    border-radius: 25px;
+}
+
+#meni {
+    padding: 5px;
+}
+
+#meni ul {
+    padding-left: 5px;
+}
+
+#meni li {
+    display: inline;
+    padding: 10px;
+}
+
+@media screen and (max-width: 600px) {
+    hr {
+        display: none
+    }
+    #meni ul {
+        padding-left: 5px;
+        color: #4d79ff;
+        float: left;
+        position: fixed;
+    }
+    #meni li {
+        color: #4d79ff;
+        display: block;
+        padding: 10px;
+        font-size: 90%
+    }
+    .container {
+        display: flex;
+        flex-direction: column;
+        margin: 3%;
+    }
+    .prethodna {
+        display: none;
+    }
+    .container>* {
+        width: 50%;
+        align-self: flex-end;
+        margin-bottom: 10%
+    }
+    /*  .center{
+        position:absolute;
+        width: 60%;
+        float:right
+    }
+    .side {margin-top:20px;
+    float:center}*/
+}
