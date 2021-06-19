@@ -1,0 +1,17 @@
+DELETE,/all,null,{\"message\":\"Uspješno obrisan sadržaj datoteka!\"}
+GET,/predmeti,null,[]
+GET,/aktivnosti,null,[]
+POST,/predmet,{\"naziv\":\"RMA\"},{\"message\":\"Uspješno dodan predmet!\"}
+POST,/predmet,{\"naziv\":\"WT\"},{\"message\":\"Uspješno dodan predmet!\"}
+POST,/predmet,{\"naziv\":\"WT\"},{\"message\":\"Naziv predmeta postoji!\"}
+GET,/predmeti,null,[{\"naziv\":\"RMA\"}\,{\"naziv\":\"WT\"}]
+DELETE,/predmet/WT,null,{\"message\":\"Uspješno obrisan predmet!\"}
+DELETE,/predmet/WT,null,{\"message\":\"Greška - predmet nije obrisan!\"}
+POST,/aktivnost,{\"naziv\":\"WT\"\,\"tip\":\"predavanje\"\,\"pocetak\":\"13\"\,\"kraj\":\"14\"\,\"dan\":\"petak\"},{\"message\":\"Uspješno dodana aktivnost!\"}
+POST,/aktivnost,{\"naziv\":\"RG\"\,\"tip\":\"predavanje\"\,\"pocetak\":\"13\"\,\"kraj\":\"14\"\,\"dan\":\"srijeda\"},{\"message\":\"Uspješno dodana aktivnost!\"}
+GET,/predmet/WT/aktivnost,null,[{\"naziv\":\"WT\"\,\"tip\":\"predavanje\"\,\"pocetak\":\"13\"\,\"kraj\":\"14\"\,\"dan\":\"petak\"}]
+GET,/predmet/RMA/aktivnost,null,[]
+GET,/aktivnosti,null,[{\"naziv\":\"WT\"\,\"tip\":\"predavanje\"\,\"pocetak\":\"13\"\,\"kraj\":\"14\"\,\"dan\":\"petak\"}\,{\"naziv\":\"RG\"\,\"tip\":\"predavanje\"\,\"pocetak\":\"13\"\,\"kraj\":\"14\"\,\"dan\":\"srijeda\"}]
+DELETE,/aktivnost/WT,null,{\"message\":\"Uspješno obrisana aktivnost!\"}
+DELETE,/aktivnost/RMA,null,{\"message\":\"Greška - aktivnost nije obrisana!\"}
+DELETE,/all,null,{\"message\":\"Uspješno obrisan sadržaj datoteka!\"}

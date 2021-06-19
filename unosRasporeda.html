@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unos aktivnosti</title>
+    <link rel="stylesheet" type="text/css" href="public/stil-planiranjeNastavnik.css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+
+</head>
+
+<body onload="fun()">
+    <form onsubmit="fun1()">
+        <label> Naziv predmeta: </label>
+        <input type="text" name="naziv" class="input" required><br><br>
+        <label>Tip: </label>
+        <select name="tip" class="input" required>
+            <option value="predavanje">predavanje</option>
+            <option value="vježbe">vježbe</option>
+            <option value="tutorijal">tutorijal</option>
+        </select><br><br>
+        <label>Vrijeme početka: </label>
+        <input type="time" name="pocetak" class="input" required><br><br>
+        <label>Vrijeme kraja: </label>
+        <input type="time" name="kraj" class="input" required><br><br>
+        <label>Dan: </label>
+        <select name="dan" class="input" required>
+            <option value="ponedjeljak">ponedjeljak</option>
+            <option value="utorak">utorak</option>
+            <option value="srijeda">srijeda</option>
+            <option value="četvrtak">četvrtak</option>
+            <option value="petak">petak</option>
+            <option value="subota">subota</option>
+            <option value="nedjelja">nedjelja</option>
+        </select><br><br>
+        <label>Grupa: </label>
+        <select name="grupe" class="input" id="grupe">
+            
+        </select><br><br>
+        <label for="submit">Potvrda:</label>
+        <input type="submit" value="Potvrdi" class="input">
+    </form>
+
+</body>
+
+<script type="text/javascript">
+    var nizPredmeti;
+
+    function pretvori(vrijeme) {
+        var vrijeme = vrijeme.split(":");
+        var sati = Number.parseInt(vrijeme[0]);
+        var minute = Number.parseInt(vrijeme[1]);
+        return sati + minute / 60;
+    }
+
+    function fun() {
+        const xhrPredmeti1 = new XMLHttpRequest();
+        xhrPredmeti1.onreadystatechange = function() {
+            if (xhrPredmeti1.readyState == 4 && xhrPredmeti1.status == 200) {
+                let arr = JSON.parse(xhrPredmeti1.responseText);
+                var x = document.getElementById("grupe");
+                for (let i = 0; i < arr.length; i++) {
+                    let novaOsoba = arr[i].naziv;
+                    var option = document.createElement("option");
+                    option.text = novaOsoba;
+                    x.add(option);
+                }
+            }
+        }
+        xhrPredmeti1.open('get', '/v2/grupa', true);
+        xhrPredmeti1.send();
+        const xhrPredmeti = new XMLHttpRequest();
+        const xhrAktivnosti = new XMLHttpRequest();
+        xhrPredmeti.onreadystatechange = function() {
+            if (xhrPredmeti.readyState == 4 && xhrPredmeti.status == 200) {
+                nizPredmeti = JSON.parse(xhrPredmeti.responseText);
+                console.log(nizPredmeti);
+
+            }
+        }
+        xhrAktivnosti.onreadystatechange = function() {
+            if (xhrAktivnosti.readyState == 4 && xhrAktivnosti.status == 200) {
+                var nizAktivnosti = JSON.parse(xhrAktivnosti.responseText);
+                console.log("ucitane aktivnosti");
+            }
+        }
+        xhrPredmeti.open('get', '/v2/predmet', true);
+        xhrPredmeti.send();
+        xhrAktivnosti.open('get', '/v2/aktivnost', true);
+        xhrAktivnosti.send();
+    }
+
+    function fun1() {
+        var predmet = '' + document.getElementsByName('naziv')[0].value;
+        console.log("pozvana submit");
+        let postoji = false;
+        for (var i = 0; i < nizPredmeti.length; i++) {
+            if (nizPredmeti[i].naziv == document.getElementsByName('naziv')[0].value)
+                postoji = true;
+        }
+        let dodanPredmet = false;
+        let predmetNeuspjesno = false;
+        /*   if (!postoji) {
+                 dodanPredmet = true;
+                 const xhrUnosPredmeta = new XMLHttpRequest();
+                 xhrUnosPredmeta.onreadystatechange = function() {
+                     if (xhrUnosPredmeta.readyState == 4 && xhrUnosPredmeta.status == 200) {
+                         var unosPredmeta = JSON.parse(xhrUnosPredmeta.responseText);
+                         if (!(unosPredmeta.message == "Uspješno dodan predmet!"))
+                             predmetNeuspjesno = true;
+                         else {
+                             dodanPredmet = true;
+                         }
+                     }
+                 }
+                 var data = {
+                     naziv: document.getElementsByName('naziv')[0].value
+                 };
+                 // let params = 'naziv=' + document.getElementsByName('naziv')[0].value;
+                 xhrUnosPredmeta.open('post', '/v2/predmet', true);
+                 xhrUnosPredmeta.setRequestHeader('Content-type', 'application/json');
+                 xhrUnosPredmeta.send(JSON.stringify(data));
+             }*/
+
+        if (!predmetNeuspjesno) {
+            dodavanjeAktivnosti();
+            /*  const xhrDan = new XMLHttpRequest();
+            xhrDan.onreadystatechange = function() {
+                if (xhrDan.readyState == 4 && xhrDan.status == 200) {
+                    let idevi = JSON.parse(xhrDan.responseText);
+                    alert("desilo se");
+                    dodavanjeAktivnosti(idevi.message1, idevi.message2, idevi.message3);
+                   
+                }
+            }
+            var data = {
+                nazivDana: document.getElementsByName('dan')[0].value,
+                nazivTipa: document.getElementsByName('tip')[0].value,
+                nazivPredmeta: document.getElementsByName('naziv')[0].value
+            };
+            xhrDan.open('post', '/idevi', true);
+            xhrDan.setRequestHeader('Content-type', 'application/json');
+            xhrDan.send(JSON.stringify(data));
+*/
+        }
+    }
+
+
+    function dodavanjeAktivnosti() {
+        const xhrUnosAktivnosti = new XMLHttpRequest();
+        xhrUnosAktivnosti.onreadystatechange = function() {
+            if (xhrUnosAktivnosti.readyState == 4 && xhrUnosAktivnosti.status == 200) {
+                var unosAktivnosti = JSON.parse(xhrUnosAktivnosti.responseText);
+                console.log(unosAktivnosti);
+                if ((unosAktivnosti.message == "Uspješno dodana aktivnost!")) {
+                    alert("Uspješno dodavanje aktivnosti");
+                    console.log('DAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+                } else {
+                    alert("Aktivnost nije dodana");
+                    if (dodanPredmet) {
+                        //brisanje predmeta
+                        console.log('NE');
+                        const xhrBrisanjePredmeta = new XMLHttpRequest();
+                        xhrBrisanjePredmeta.onreadystatechange = function() {
+                            if (xhrBrisanjePredmeta.readyState == 4 && xhrBrisanjePredmeta.status == 200) {
+
+                            }
+                            if (xhrBrisanjePredmeta.readyState == 4 && xhrBrisanjePredmeta.status == 404)
+                                console.log("Nemoguc GET zahtjev");
+                        }
+                        xhrBrisanjePredmeta.open('delete', '/v2/predmet/' + predmet, true);
+                        xhrBrisanjePredmeta.send();
+                    }
+                }
+
+            }
+        }
+        var data_aktivnost = {
+            naziv: document.getElementsByName('naziv')[0].value,
+            pocetak: pretvori(document.getElementsByName('pocetak')[0].value),
+            kraj: pretvori(document.getElementsByName('kraj')[0].value),
+            predmetId: document.getElementsByName('naziv')[0].value,
+            grupaId: document.getElementById('grupe').value,
+            danId: document.getElementsByName('dan')[0].value,
+            tipId: document.getElementsByName('tip')[0].value
+        };
+        //da bismo dobili id od unesenog dana, slat zahtjev sa parametrom naziv
+        // let poc = pretvori(document.getElementsByName('pocetak')[0].value);
+        //  let kr = pretvori(document.getElementsByName('kraj')[0].value);
+        //  params = 'naziv=' + document.getElementsByName('naziv')[0].value + '&tip=' + document.getElementsByName('tip')[0].value + '&pocetak=' + poc + '&kraj=' + kr + '&dan=' + document.getElementsByName('dan')[0].value;
+        xhrUnosAktivnosti.open('post', '/aktivnost', true);
+        xhrUnosAktivnosti.setRequestHeader('Content-type', 'application/json');
+        xhrUnosAktivnosti.send(JSON.stringify(data_aktivnost));
+    }
+</script>
+
+</html>

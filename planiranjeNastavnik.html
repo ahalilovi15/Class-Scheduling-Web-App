@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dodavanje termina</title>
+    <link rel="stylesheet" type="text/css" href="public/stil-planiranjeNastavnik.css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+</head>
+
+<body>
+    <div class="meni">
+        <ul>
+            <li><a href="raspored.html">Raspored</a></li>
+            <li><a href="podaciStudent.html">Grupe na predmetima </a></li>
+            <li><a href="aktivnost.html">Aktivnosti</a></li>
+            <li><a href="planiranjeNastavnik.html">Dodavanje termina</a></li>
+
+        </ul>
+
+    </div>
+    <hr>
+    <div id="formContainer">
+        <form id="formC">
+            <label for="predmet">Naziv predmeta:</label>
+            <input type="text" id="predmet" name="predmet" class="input"> <br> <br>
+            <label for="tipNastave">Tip:</label>
+            <select id="tipNastave" name="tipNastave" class="input">
+                <option>predavanje</option>
+                <option>vježbe</option>
+            </select> <br> <br>
+            <label for="start">Vrijeme početka:</label>
+            <input type="time" id="start" name="start" class="input">
+            <br> <br>
+            <label for="end">Vrijeme kraja:</label>
+            <input type="time" id="end" name="end" class="input">
+            <br> <br>
+            <label for="dan">Dan u sedmici:</label>
+            <select id="dan" name="dan" class="input">
+                <option>ponedjeljak</option>
+                <option>utorak</option>
+                <option>srijeda</option>
+                <option>četvrtak</option>
+                <option>petak</option>
+            </select> <br> <br>
+            <label for="submit">Potvrda:</label>
+            <input id="submit" type="submit" value="OK" class="input">
+        </form>
+    </div>
+</body>
+
+</html>

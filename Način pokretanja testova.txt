@@ -1,0 +1,2 @@
+U terminalu se pozicionirati na osnovni folder projekta.
+Pokrenuti testove naredbom "npm test".

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unos studenata</title>
+
+</head>
+
+<body onload="fun()">
+
+    <label>Grupa: </label>
+    <select name="grupe" class="input" id="grupe">
+            
+        </select><br><br>
+    <label>Studenti: </label>
+    <textarea name="studenti" id="studenti" ROWS=10 COLS=30></textarea>
+    <br><br>
+    <label>Potvrda:</label>
+    <button class="input" onclick="fun1()">Potvrdi</button>
+
+
+
+</body>
+
+<script type="text/javascript">
+    function fun() {
+        const xhrPredmeti = new XMLHttpRequest();
+        xhrPredmeti.onreadystatechange = function() {
+            if (xhrPredmeti.readyState == 4 && xhrPredmeti.status == 200) {
+                let arr = JSON.parse(xhrPredmeti.responseText);
+                var x = document.getElementById("grupe");
+                for (let i = 0; i < arr.length; i++) {
+                    let novaOsoba = arr[i].naziv;
+                    var option = document.createElement("option");
+                    option.text = novaOsoba;
+                    x.add(option);
+                }
+            }
+        }
+        xhrPredmeti.open('get', '/v2/grupa', true);
+        xhrPredmeti.send();
+    }
+
+    function fun1() {
+        console.log("Pozvano");
+        var studenti = document.getElementById("studenti").value;
+        var grupax = document.getElementById("grupe").value;
+        studenti = studenti.toString().split('\n');
+        var niz = [];
+        for (var i = 0; i < studenti.length; i++) {
+            var student = studenti[i].split(",");
+
+            var objekat = {
+                ime: student[0],
+                index: student[1],
+                grupa: grupax
+            };
+            niz.push(objekat);
+
+        }
+        niz = JSON.stringify(niz);
+        console.log(niz);
+        const xhrStudenti = new XMLHttpRequest();
+        xhrStudenti.onreadystatechange = function() {
+            if (xhrStudenti.readyState == 4 && xhrStudenti.status == 200) {
+                let odg = JSON.parse(xhrStudenti.responseText);
+                console.log(odg);
+                document.getElementById("studenti").value = "Ne rade ispisi odgovora";
+            }
+        }
+        xhrStudenti.open('post', '/studentigrupa', true);
+        xhrStudenti.setRequestHeader('Content-type', 'application/json');
+        xhrStudenti.send(niz);
+
+    }
+</script>
+
+</html>
